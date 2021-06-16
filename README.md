@@ -1,4 +1,4 @@
-## Flow Shop Scheduling by means of Reinforcement Learning
+## Flow Shop Scheduling by means of Genetic Algorithm
 
 ### Data source
  - [OR_Library](http://mistic.heig-vd.ch/taillard/problemes.dir/ordonnancement.dir/ordonnancement.html)
