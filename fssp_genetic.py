@@ -162,17 +162,18 @@ def main():
     pop = Population(population_size, n_jobs)
     temp_optimal_value = float('inf')
     start_time = time.time()
+
+    # parent selection
+    # crossover with probability 'crossover_rate'
+    # mutation with probability 'mutation_rate'
+    # Combine parent and successor chromosomes to get 
+    # 'total_chromosomes,' which comprises of job and
+    # /or machining sequence permutation vectors.
+    # fitness calculation
+    # survivor selection
+    # comparison
     for _ in range(n_iterations):     
 
-        # parent selection
-        # crossover with probability 'crossover_rate'
-        # mutation with probability 'mutation_rate'
-        # Combine parent and successor chromosomes to get 
-        # 'total_chromosomes,' which comprises of job and
-        # /or machining sequence permutation vectors.
-        # fitness calculation
-        # survivor selection
-        # comparison
         pop.parents = copy.deepcopy(pop.population)
         pop.crossover(crossover_rate)
         pop.mutation(mutation_rate, mutation_selection_rate)
