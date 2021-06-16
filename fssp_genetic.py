@@ -1,6 +1,5 @@
-"""
-    Genetic Algorithm implementation for 
-    solving the Flow Shop Scheduling problem"""
+""" Genetic Algorithm implementation for 
+    solving the Flow Shop Scheduling problem """
 
 import argparse
 import numpy as np
@@ -11,6 +10,7 @@ from statistics import median
 
 class Population:
     def __init__(self, population_size, n_jobs):
+
         self.population_size = population_size
         self.n_jobs = n_jobs
         self.population = []
@@ -18,12 +18,11 @@ class Population:
         self.parents = []
         self.successors = []
 
-
     # Population Initialization: Random Initialization
     # Generates 'population_size' number of random per
     # -mutations of jobs to create an initial population. 
     # These random permutations are called 'chromosomes,' 
-    # each of which is of length 'n_jobs'
+    # each of which is of length 'n_jobs.'
     def generate_initial_population(self):
 
         count = 0
@@ -32,14 +31,13 @@ class Population:
             if chromosome not in self.population:
                 self.population.append(chromosome)
                 count += 1
-        
 
     # genetic operator
     # Crossover Operator: Uniform Crossover
     # Here, we essentially flip an unbiased 
     # coin to decide whether or not genetic
     # material from parents must be included
-    # in the successor
+    # in the successor.
     def crossover(self, crossover_rate):
 
         self.successors = copy.deepcopy(self.parents)
@@ -65,15 +63,13 @@ class Population:
                 
                 self.successors[shuffled_chromosomes[2*i]] = successor_1[:]
                 self.successors[shuffled_chromosomes[2*i+1]] = successor_2[:]
-        
-
 
     # genetic operator
     # Applies random changes to parents to form children; 
     # randomly shuffles genes. 'mutation_selection_rate' 
     # controls the standard deviation of the mutation at 
     # the first generation; 'n_jobs' is the range of the 
-    # initial population
+    # initial population.
     def mutation(self, mutation_rate, mutation_selection_rate):
 
         n_mutation_jobs = round(self.n_jobs * mutation_selection_rate)
@@ -84,14 +80,11 @@ class Population:
                 temp_allele = self.successors[i][random_choice_[0]]
                 for j in range(n_mutation_jobs-1):
                     self.successors[i][random_choice_[j]] = self.successors[i][random_choice_[j+1]] 
-                
                 self.successors[i][random_choice_[n_mutation_jobs-1]] = temp_allele
-        
-
 
     # genetic operator
     # Fitness based selection; selects parents that 
-    # contribute to the population at the next generation
+    # contribute to the population at the next generation.
     def selection(self, total_chromosomes, chromosome_fitness):   
         median_fitness = median(chromosome_fitness)
         self.population = []
@@ -104,25 +97,26 @@ class Population:
 def random_permutation(x):
     return list(np.random.permutation(x))
 
-
 def random_choice(a, size):
     return list(np.random.choice(a = a, size = size, replace = False))
 
 
+
 # Calculates machining idle times for 'n_jobs' 
-# number of jobs and 'n_machines' number of machines 
+# number of jobs and 'n_machines' number of machines. 
 # Time complexity: O(nm), n = n_jobs, m = n_machines
+# 'd' stores the sum of the idle times preceded by 
+# the corresponding job, 'v' indicates the sum of 
+# idle times.
 def algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines):
 
     # memory initializations
     chromosome_fitness, chromosome_fit = [], []
     total_fitness = 0
-    # 'd' stores the sum of the idle times preceded by the corresponding job
     s, d = [[0]*n_machines]*(2*population_size), [[0]*n_machines]*(2*population_size)
     D = [[[0]*n_jobs]*n_machines]*(2*population_size)
 
     # begin
-    # 'v' indicates the sum of idle times
     v = [0]*(2*population_size)
     for k in range(2*population_size):
         for i in range(n_machines):
@@ -130,7 +124,7 @@ def algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines):
             d[k][i] = v[k]
             D[k][i][total_chromosomes[k][0]] = v[k]
             v[k] += matrix[total_chromosomes[k][0]][i]
-    
+
         for j in range(n_jobs): D[k][0][j] = 0
     
         for j in range(1, n_jobs):
@@ -138,12 +132,10 @@ def algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines):
                 s[k][i] += matrix[total_chromosomes[k][j]][i]
                 D[k][i+1][j] = max(0, s[k][i] + d[k][i] - s[k][i+1] - d[k][i+1])
                 d[k][i+1] += D[k][i+1][j]
-            
             s[k][n_machines-1] += matrix[total_chromosomes[k][j]][i+1]
         
         v[k] = 0
         for i in range(n_machines): v[k] += d[k][i]
-            
         chromosome_fitness.append(1/v[k])
         chromosome_fit.append(v[k])
         total_fitness += chromosome_fitness[k]
@@ -158,10 +150,8 @@ def comparison(total_chromosomes, chromosome_fit, population_size, temp_optimal_
         if chromosome_fit[i] < optimal_value:
             optimal_sequence = copy.deepcopy(total_chromosomes[i])
             optimal_value = chromosome_fit[i]
-    
     if optimal_value <= temp_optimal_value:
         temp_optimal_value = optimal_value
-    
     return optimal_sequence, optimal_value
 
 
@@ -175,22 +165,20 @@ def main():
     for _ in range(n_iterations):     
 
         # parent selection
-        pop.parents = copy.deepcopy(pop.population)
         # crossover with probability 'crossover_rate'
-        pop.crossover(crossover_rate)
         # mutation with probability 'mutation_rate'
-        pop.mutation(mutation_rate, mutation_selection_rate)
-        
-        # combine parent and successor chromosomes to get 
+        # Combine parent and successor chromosomes to get 
         # 'total_chromosomes,' which comprises of job and
-        # /or machining sequence permutation vectors
-        total_chromosomes = copy.deepcopy(pop.parents) + copy.deepcopy(pop.successors) 
-        
+        # /or machining sequence permutation vectors.
         # fitness calculation
-        chromosome_fitness, chromosome_fit, total_fitness = algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines)
         # survivor selection
-        pop.selection(total_chromosomes, chromosome_fitness)
         # comparison
+        pop.parents = copy.deepcopy(pop.population)
+        pop.crossover(crossover_rate)
+        pop.mutation(mutation_rate, mutation_selection_rate)
+        total_chromosomes = copy.deepcopy(pop.parents) + copy.deepcopy(pop.successors) 
+        chromosome_fitness, chromosome_fit, total_fitness = algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines)
+        pop.selection(total_chromosomes, chromosome_fitness)
         optimal_sequence, optimal_value = comparison(total_chromosomes, chromosome_fit, population_size, temp_optimal_value)
         
     print('Optimal sequence: ', optimal_sequence)
