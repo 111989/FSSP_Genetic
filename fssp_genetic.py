@@ -9,7 +9,7 @@ import time
 from statistics import median
 
 class Population:
-    def __init__(self, population_size, n_jobs):
+    def __init__(self, population_size: int, n_jobs: int) -> None:
 
         self.population_size = population_size
         self.n_jobs = n_jobs
@@ -23,7 +23,7 @@ class Population:
     # -mutations of jobs to create an initial population. 
     # These random permutations are called 'chromosomes,' 
     # each of which is of length 'n_jobs.'
-    def generate_initial_population(self):
+    def generate_initial_population(self) -> None:
 
         count = 0
         while count < self.population_size:
@@ -38,7 +38,7 @@ class Population:
     # coin to decide whether or not genetic
     # material from parents must be included
     # in the successor.
-    def crossover(self, crossover_rate):
+    def crossover(self, crossover_rate: float) -> None:
 
         self.successors = copy.deepcopy(self.parents)
         shuffled_chromosomes = random_permutation(population_size)
@@ -70,7 +70,7 @@ class Population:
     # controls the standard deviation of the mutation at 
     # the first generation; 'n_jobs' is the range of the 
     # initial population.
-    def mutation(self, mutation_rate, mutation_selection_rate):
+    def mutation(self, mutation_rate: float, mutation_selection_rate: float) -> None:
 
         n_mutation_jobs = round(self.n_jobs * mutation_selection_rate)
         for i in range(len(self.successors)):
@@ -85,7 +85,7 @@ class Population:
     # genetic operator
     # Fitness based selection; selects parents that 
     # contribute to the population at the next generation.
-    def selection(self, total_chromosomes, chromosome_fitness):   
+    def selection(self, total_chromosomes: list, chromosome_fitness: list) -> None:   
         median_fitness = median(chromosome_fitness)
         self.population = []
         for index in range(2*self.population_size):
@@ -94,10 +94,10 @@ class Population:
         
         
 
-def random_permutation(x):
+def random_permutation(x: int) -> list:
     return list(np.random.permutation(x))
 
-def random_choice(a, size):
+def random_choice(a: int, size: int) -> list:
     return list(np.random.choice(a = a, size = size, replace = False))
 
 
@@ -108,7 +108,7 @@ def random_choice(a, size):
 # 'd' stores the sum of the idle times preceded by 
 # the corresponding job, 'v' indicates the sum of 
 # idle times.
-def algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines):
+def algorithm(matrix: list, total_chromosomes: list, population_size: int, n_jobs: int, n_machines: int):
 
     # memory initializations
     chromosome_fitness, chromosome_fit = [], []
@@ -144,7 +144,7 @@ def algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines):
         
 
 
-def comparison(total_chromosomes, chromosome_fit, population_size, temp_optimal_value):
+def comparison(total_chromosomes: list, chromosome_fit: list, population_size: int, temp_optimal_value: float):
     optimal_value = float('inf')
     for i in range(2*population_size):
         if chromosome_fit[i] < optimal_value:
