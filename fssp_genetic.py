@@ -112,7 +112,6 @@ def algorithm(matrix: list, total_chromosomes: list, population_size: int, n_job
 
     # memory initializations
     chromosome_fitness, chromosome_fit = [], []
-    total_fitness = 0
     s, d = [[0]*n_machines]*(2*population_size), [[0]*n_machines]*(2*population_size)
     D = [[[0]*n_jobs]*n_machines]*(2*population_size)
 
@@ -138,9 +137,8 @@ def algorithm(matrix: list, total_chromosomes: list, population_size: int, n_job
         for i in range(n_machines): v[k] += d[k][i]
         chromosome_fitness.append(1/v[k])
         chromosome_fit.append(v[k])
-        total_fitness += chromosome_fitness[k]
 
-    return chromosome_fitness, chromosome_fit, total_fitness
+    return chromosome_fitness, chromosome_fit
         
 
 
@@ -178,7 +176,7 @@ def main():
         pop.crossover(crossover_rate)
         pop.mutation(mutation_rate, mutation_selection_rate)
         total_chromosomes = copy.deepcopy(pop.parents) + copy.deepcopy(pop.successors) 
-        chromosome_fitness, chromosome_fit, total_fitness = algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines)
+        chromosome_fitness, chromosome_fit = algorithm(matrix, total_chromosomes, population_size, n_jobs, n_machines)
         pop.selection(total_chromosomes, chromosome_fitness)
         optimal_sequence, optimal_value = comparison(total_chromosomes, chromosome_fit, population_size, temp_optimal_value)
         
@@ -191,7 +189,7 @@ def main():
 if __name__ == '__main__':
 
     # fetch dataset    
-    dataframe = pd.read_excel(io = '20x5_flow_shop_dataset.xlsx', sheet_name = 'S1', index_col = [0])
+    dataframe = pd.read_excel(io = 'flow_shop_dataset.xlsx', sheet_name = 'S1', index_col = [0])
     matrix = dataframe.values.tolist()
     n_jobs, n_machines = len(matrix), len(matrix[0])
 
