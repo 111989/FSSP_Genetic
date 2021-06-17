@@ -189,7 +189,7 @@ def main():
 if __name__ == '__main__':
 
     # fetch dataset    
-    dataframe = pd.read_excel(io = 'flow_shop_dataset.xlsx', sheet_name = 'S1', index_col = [0])
+    dataframe = pd.read_excel(io = '20x5_flow_shop_dataset.xlsx', sheet_name = 'S1', index_col = [0])
     matrix = dataframe.values.tolist()
     n_jobs, n_machines = len(matrix), len(matrix[0])
 
