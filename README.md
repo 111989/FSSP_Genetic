@@ -10,7 +10,7 @@
 
 - [MARTÍNEZ, Y. (2012): A Generic Multi-Agent Reinforcement Learning Approach for Scheduling Problems. PhD Thesis, Vrije Universiteit Brussel, 169 p.](https://scholar.google.com.tw/scholar?hl=zh-TW&as_sdt=0%2C5&q=A+Generic+Multi-Agent+Reinforcement+Learning+Approach+for+Scheduling+Problems&btnG=)
 
-### Running the code:
+### Running the code
 python fssp_genetic.py
 
 python fssp_genetic.py --population 20 --crossover 0.8 --mutation 0.2 --selection 0.2 --iterations 1000
