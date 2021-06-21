@@ -195,16 +195,11 @@ if __name__ == '__main__':
 
     # parse input arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--population', type = int, default = 20, \
-        help = 'Population size')
-    parser.add_argument('--crossover', type = float, default = 0.8, \
-        help = 'Crossover rate')
-    parser.add_argument('--mutation', type = float, default = 0.2, \
-        help = 'Mutation rate')
-    parser.add_argument('--selection', type = float, default = 0.2, \
-        help = 'Mutation selection rate')
-    parser.add_argument('--iterations', type = int, default = 1000, \
-        help = 'Number of iterations')
+    parser.add_argument('--population', type = int, default = 20, help = 'Population size')
+    parser.add_argument('--crossover', type = float, default = 0.8, help = 'Crossover rate')
+    parser.add_argument('--mutation', type = float, default = 0.2, help = 'Mutation rate')
+    parser.add_argument('--selection', type = float, default = 0.2, help = 'Mutation selection rate')
+    parser.add_argument('--iterations', type = int, default = 1000, help = 'Number of iterations')
     
     args = vars(parser.parse_args())
     population_size = int(args['population'])
