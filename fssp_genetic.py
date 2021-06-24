@@ -104,7 +104,7 @@ def random_choice(a: int, size: int) -> list:
 
 # Calculates machining idle times for 'n_jobs' 
 # number of jobs and 'n_machines' number of machines. 
-# Time complexity: O(nm), n = n_jobs, m = n_machines
+# Time complexity: O(n*m), n = n_jobs, m = n_machines
 # 'd' stores the sum of the idle times preceded by 
 # the corresponding job, 'v' indicates the sum of 
 # idle times.
