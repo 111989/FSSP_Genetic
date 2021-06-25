@@ -164,9 +164,10 @@ def main():
     # parent selection
     # crossover with probability 'crossover_rate'
     # mutation with probability 'mutation_rate'
-    # Combine parent and successor chromosomes to get 
-    # 'total_chromosomes,' which comprises of job and
-    # /or machining sequence permutation vectors.
+    # Combine parent and successor chromosomes to 
+    # get 'total_chromosomes,' which comprises of 
+    # job and/or machining sequence permutation 
+    # vectors.
     # fitness calculation
     # survivor selection
     # comparison
