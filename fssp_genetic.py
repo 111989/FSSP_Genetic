@@ -9,7 +9,7 @@ import time
 from statistics import median
 
 class Population:
-    def __init__(self, population_size: int, n_jobs: int) -> None:
+    def __init__(self, population_size: int, n_jobs: int):
 
         self.population_size = population_size
         self.n_jobs = n_jobs
